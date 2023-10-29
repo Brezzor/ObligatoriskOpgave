@@ -9,11 +9,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ObligatoriskOpgave"
-         >
+        android:theme="@style/Theme.ObligatoriskOpgave">
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:label="@string/register" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:label="@string/login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,10 +26,9 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ObligatoriskOpgave" >
-        </activity>
+            android:theme="@style/Theme.ObligatoriskOpgave" />
     </application>
 
 </manifest>
