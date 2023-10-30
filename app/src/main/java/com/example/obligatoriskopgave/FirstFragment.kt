@@ -1,5 +1,6 @@
 package com.example.obligatoriskopgave
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.obligatoriskopgave.databinding.FragmentFirstBinding
+import com.google.firebase.auth.FirebaseAuth
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -14,6 +16,7 @@ import com.example.obligatoriskopgave.databinding.FragmentFirstBinding
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,19 +25,22 @@ class FirstFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+
+        binding.textView.text = "Welcome! " + auth.currentUser?.email + " to page one"
     }
 
     override fun onDestroyView() {

@@ -21,10 +21,13 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        title = "Login"
+
         auth = Firebase.auth
 
         binding.loginButton.setOnClickListener {
-            val email = binding.editTextTextEmailAddress.text.trim().toString()
+            val email = binding.EmailAddress.text.trim().toString()
             if (email.isEmpty()) {
                 Toast.makeText(
                     baseContext,
@@ -33,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
                 return@setOnClickListener
             }
-            val password = binding.editTextTextPassword.text.trim().toString()
+            val password = binding.Password.text.trim().toString()
             if (password.isEmpty()) {
                 Toast.makeText(
                     baseContext,
@@ -49,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(
                         baseContext,
                         "Authentication successful.",
-                        Toast.LENGTH_LONG
+                        Toast.LENGTH_SHORT
                     ).show()
                     activityIntent = Intent(this, MainActivity::class.java)
                     startActivity(activityIntent)
