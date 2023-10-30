@@ -1,5 +1,6 @@
 package com.example.obligatoriskopgave
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.obligatoriskopgave.databinding.ActivityMainBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +49,26 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.sign_out -> {
+                if (Firebase.auth.currentUser != null) {
+                    Firebase.auth.signOut()
+                    Toast.makeText(
+                        baseContext,
+                        "Signed out.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val activityIntent = Intent(this, LoginActivity::class.java)
+                    startActivity(activityIntent)
+                    finish()
+                } else {
+                    Toast.makeText(
+                        baseContext,
+                        "Cannot sign out.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

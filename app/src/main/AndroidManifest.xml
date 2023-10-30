@@ -16,11 +16,9 @@
             android:label="@string/register" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true"
-            android:label="@string/login">
-            <intent-filter>
+            android:exported="true">
+            <intent-filter android:label="@string/login">
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

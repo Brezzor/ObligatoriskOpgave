@@ -1,9 +1,8 @@
 package com.example.obligatoriskopgave
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.obligatoriskopgave.databinding.ActivityLoginBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.example.obligatoriskopgave.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -20,7 +19,7 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
+        title = "Register"
 
         auth = Firebase.auth
 

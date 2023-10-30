@@ -2,6 +2,7 @@ package com.example.obligatoriskopgave
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.obligatoriskopgave.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -20,14 +21,48 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-
         auth = Firebase.auth
 
         binding.loginButton.setOnClickListener {
-            activityIntent = Intent(this, MainActivity::class.java)
-            startActivity(activityIntent)
-            finish()
+            val email = binding.editTextTextEmailAddress.text.trim().toString()
+            if (email.isEmpty()) {
+                Toast.makeText(
+                    baseContext,
+                    "No email.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+            val password = binding.editTextTextPassword.text.trim().toString()
+            if (password.isEmpty()) {
+                Toast.makeText(
+                    baseContext,
+                    "No password.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        baseContext,
+                        "Authentication successful.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    activityIntent = Intent(this, MainActivity::class.java)
+                    startActivity(activityIntent)
+                    finish()
+                } else {
+                    Toast.makeText(
+                        baseContext,
+                        task.exception?.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@addOnCompleteListener
+                }
+            }
         }
 
         binding.registerButton.setOnClickListener {
