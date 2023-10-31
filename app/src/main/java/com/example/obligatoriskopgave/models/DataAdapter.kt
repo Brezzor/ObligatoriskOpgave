@@ -15,24 +15,24 @@ class DataAdapter<T> (
         return items.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_card, parent, false)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.list_item_card, viewGroup, false)
         return MyViewHolder(view, onItemClicked)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.textView.text = items[position].toString()
+    override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
+        viewHolder.textView.text = items[position].toString()
     }
 
     class MyViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val textView: TextView = itemView.findViewById(R.id.textview_list_item)
+        val textView: TextView = itemView.findViewById(R.id.textview_list_item_body)
         init {
             itemView.setOnClickListener(this)
         }
 
-        override fun onClick(view: View?) {
+        override fun onClick(view: View) {
             val position = bindingAdapterPosition
             onItemClicked(position)
         }

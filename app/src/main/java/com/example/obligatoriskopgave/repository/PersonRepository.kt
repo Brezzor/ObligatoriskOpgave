@@ -32,6 +32,7 @@ class PersonRepository {
                     val b: List<Person>? = response.body()
                     personLiveData.postValue(b!!)
                     errorMessageLiveData.postValue("")
+                    Log.d("APPLE", "Got persons.")
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)

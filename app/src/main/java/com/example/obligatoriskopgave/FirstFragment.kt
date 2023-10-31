@@ -1,12 +1,10 @@
 package com.example.obligatoriskopgave
 
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -35,15 +33,8 @@ class FirstFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
-
-        binding.textView.text = "Welcome! " + auth.currentUser?.email + " to page one"
 
         personViewModel.personLiveData.observe(viewLifecycleOwner) { persons ->
             binding.recyclerView.visibility = if (persons == null) View.GONE else View.VISIBLE
@@ -61,11 +52,12 @@ class FirstFragment : Fragment() {
                 }
                 binding.recyclerView.layoutManager = GridLayoutManager(this.context, colums)
                 binding.recyclerView.adapter = adapter
+                binding.swipeRefresh.isRefreshing = false
             }
         }
 
         personViewModel.errorMessageLiveData.observe(viewLifecycleOwner) { errorMessage ->
-            binding.textView.text = errorMessage
+            binding.textViewError.text = errorMessage
         }
 
         personViewModel.reload()
@@ -75,10 +67,11 @@ class FirstFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = false
         }
 
-        personViewModel.personLiveData.observe(viewLifecycleOwner) {persons ->
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, persons)
-            TODO()
+        binding.buttonFirst.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+
+        binding.textViewTitle.text = "Welcome! " + auth.currentUser?.email + " to page one"
     }
 
     override fun onDestroyView() {

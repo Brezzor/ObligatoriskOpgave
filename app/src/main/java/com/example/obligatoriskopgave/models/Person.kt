@@ -14,6 +14,6 @@ data class Person(
     val age: Int
 ): Serializable {
     override fun toString(): String {
-        return "Name: $name Age: $age"
+        return "$name, $age"
     }
 }
