@@ -15,18 +15,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical"
+            android:background="@drawable/thin_border_radius"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
                 android:id="@+id/button_first"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="#4CAF50"
-                android:minWidth="320dp"
+                android:maxWidth="320dp"
                 android:text="@string/next"
                 android:textColor="#263238"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +41,6 @@
                 android:id="@+id/textView_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +51,6 @@
                 android:id="@+id/textView_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +60,7 @@
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
-                android:layout_height="609dp"
-                android:layout_marginTop="24dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView">

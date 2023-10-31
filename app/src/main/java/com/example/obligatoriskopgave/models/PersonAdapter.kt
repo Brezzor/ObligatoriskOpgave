@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.obligatoriskopgave.R
 
-class DataAdapter<T> (
-    private val items: List<T>,
+class PersonAdapter (
+    private val items: List<Person>,
     private val onItemClicked: (position: Int) -> Unit
-) : RecyclerView.Adapter<DataAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<PersonAdapter.MyViewHolder>() {
     override fun getItemCount(): Int {
         return items.size
     }
@@ -22,12 +22,17 @@ class DataAdapter<T> (
     }
 
     override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
-        viewHolder.textView.text = items[position].toString()
+        val item = items[position]
+        viewHolder.textViewTitle.text = item.name
+        val body: String = "Birthday: ${item.birthYear}/${item.birthMonth}/${item.birthDayOfMonth}\n" +
+                            "Age: ${item.age}"
+        viewHolder.textViewBody.text = body
     }
 
     class MyViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val textView: TextView = itemView.findViewById(R.id.textview_list_item_body)
+        var textViewTitle: TextView = itemView.findViewById(R.id.textview_list_item_title)
+        val textViewBody: TextView = itemView.findViewById(R.id.textview_list_item_body)
         init {
             itemView.setOnClickListener(this)
         }

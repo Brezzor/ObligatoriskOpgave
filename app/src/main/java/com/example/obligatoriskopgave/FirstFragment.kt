@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.obligatoriskopgave.databinding.FragmentFirstBinding
-import com.example.obligatoriskopgave.models.DataAdapter
+import com.example.obligatoriskopgave.models.PersonAdapter
 import com.example.obligatoriskopgave.models.PersonViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -39,7 +39,7 @@ class FirstFragment : Fragment() {
         personViewModel.personLiveData.observe(viewLifecycleOwner) { persons ->
             binding.recyclerView.visibility = if (persons == null) View.GONE else View.VISIBLE
             if (persons != null) {
-                val adapter = DataAdapter(persons) { position ->
+                val adapter = PersonAdapter(persons) { position ->
                     val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(position)
                     findNavController().navigate(action)
                 }

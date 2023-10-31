@@ -28,21 +28,20 @@ class LoginRegisterActivity : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener {
             val email = binding.EmailAddress.text.trim().toString()
-            if (email.isEmpty()) {
-                Toast.makeText(
-                    baseContext,
-                    "No email.",
-                    Toast.LENGTH_SHORT
-                ).show()
+            val password = binding.Password.text.trim().toString()
+            if (email.isEmpty() and password.isEmpty()) {
+                Toast.makeText(baseContext,"No credentials.",Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
-            val password = binding.Password.text.trim().toString()
+            if (email.isEmpty()) {
+                Toast.makeText(baseContext,"No email.",Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
             if (password.isEmpty()) {
-                Toast.makeText(
-                    baseContext,
-                    "No password.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(baseContext,"No password.",Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
