@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                         "Signed out.",
                         Toast.LENGTH_SHORT
                     ).show()
-                    val activityIntent = Intent(this, LoginActivity::class.java)
+                    val activityIntent = Intent(this, LoginRegisterActivity::class.java)
                     startActivity(activityIntent)
                     finish()
                 } else {
