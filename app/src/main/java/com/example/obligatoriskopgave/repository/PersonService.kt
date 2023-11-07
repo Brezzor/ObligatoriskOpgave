@@ -11,6 +11,9 @@ interface PersonService {
     @GET("Persons/{id}")
     fun getPersonById(@Path("id") id: Int): Call<Person>
 
+    @GET("Persons")
+    fun getPersonByUserId(@Query("user_id") userId: String): Call<List<Person>>
+
     @POST("Persons")
     fun savePerson(@Body person: Person): Call<Person>
 

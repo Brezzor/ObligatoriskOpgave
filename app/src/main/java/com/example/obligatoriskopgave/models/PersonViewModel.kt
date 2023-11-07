@@ -3,19 +3,21 @@ package com.example.obligatoriskopgave.models
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.obligatoriskopgave.repository.PersonRepository
+import com.google.firebase.auth.FirebaseAuth
 
 class PersonViewModel: ViewModel() {
     private val repository = PersonRepository()
     val personLiveData: LiveData<List<Person>> = repository.personLiveData
     val errorMessageLiveData: LiveData<String> = repository.errorMessageLiveData
     val updateMessageLiveData: LiveData<String> = repository.updateMessageLiveData
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     init {
-        reload()
+        reload(auth.currentUser!!.email!!.toString())
     }
 
-    fun reload() {
-        repository.getPersons()
+    fun reload(userId: String) {
+        repository.getPersonsByUserId(userId)
     }
 
     operator fun get(index: Int): Person? {
@@ -32,5 +34,9 @@ class PersonViewModel: ViewModel() {
 
     fun update(person: Person) {
         repository.updatePerson(person)
+    }
+
+    fun filter(filterText: String?) {
+        repository.filter(filterText)
     }
 }

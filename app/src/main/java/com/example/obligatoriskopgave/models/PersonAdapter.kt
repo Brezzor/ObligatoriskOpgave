@@ -24,8 +24,9 @@ class PersonAdapter (
     override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
         val item = items[position]
         viewHolder.textViewTitle.text = item.name
-        val body: String = "Birthday: ${item.birthYear}/${item.birthMonth}/${item.birthDayOfMonth}\n" +
-                            "Age: ${item.age}"
+        val body: String =
+            "Birthday: ${item.birthYear}/${item.birthMonth}/${item.birthDayOfMonth}\n" +
+            "Age: ${item.age}"
         viewHolder.textViewBody.text = body
     }
 

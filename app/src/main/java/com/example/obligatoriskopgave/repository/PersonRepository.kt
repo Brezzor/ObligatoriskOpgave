@@ -22,7 +22,6 @@ class PersonRepository {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         personService = build.create(PersonService::class.java)
-        getPersons()
     }
 
     fun getPersons() {
@@ -61,6 +60,28 @@ class PersonRepository {
             }
 
             override fun onFailure(call: Call<Person>, t: Throwable) {
+                errorMessageLiveData.postValue(t.message)
+                Log.d("APPLE", t.message!!)
+            }
+        })
+    }
+
+    fun getPersonsByUserId(userId: String) {
+        personService.getPersonByUserId(userId).enqueue(object : Callback<List<Person>> {
+            override fun onResponse(call: Call<List<Person>>, response: Response<List<Person>>) {
+                if (response.isSuccessful) {
+                    val b: List<Person>? = response.body()
+                    personLiveData.postValue(b!!)
+                    errorMessageLiveData.postValue("")
+                    Log.d("APPLE", "Got persons by userId.")
+                } else {
+                    val message = response.code().toString() + " " + response.message()
+                    errorMessageLiveData.postValue(message)
+                    Log.d("APPLE", message)
+                }
+            }
+
+            override fun onFailure(call: Call<List<Person>>, t: Throwable) {
                 errorMessageLiveData.postValue(t.message)
                 Log.d("APPLE", t.message!!)
             }
@@ -168,10 +189,11 @@ class PersonRepository {
     }
 
     fun filter(filterText: String?) {
-        if (filterText.isNullOrEmpty()) {
-            getPersons()
-        } else {
-            TODO()
+        var data: List<Person> = personLiveData.value!!.filter { person ->
+            person.name!!.contains(filterText.toString(), ignoreCase = true) }
+        data = data + personLiveData.value!!.filter { person ->
+            person.age.toString().contains(filterText.toString(), ignoreCase = true)
         }
+        personLiveData.value = data
     }
 }

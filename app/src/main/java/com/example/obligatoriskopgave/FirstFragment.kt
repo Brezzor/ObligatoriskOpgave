@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -43,12 +45,12 @@ class FirstFragment : Fragment() {
                     val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(position)
                     findNavController().navigate(action)
                 }
-                var colums = 2
+                var colums = 1
                 val currentOrientation = this.resources.configuration.orientation
                 if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    colums = 4
-                } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
                     colums = 2
+                } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                    colums = 1
                 }
                 binding.recyclerView.layoutManager = GridLayoutManager(this.context, colums)
                 binding.recyclerView.adapter = adapter
@@ -57,21 +59,41 @@ class FirstFragment : Fragment() {
         }
 
         personViewModel.errorMessageLiveData.observe(viewLifecycleOwner) { errorMessage ->
-            binding.textViewError.text = errorMessage
+            if (!errorMessage.isNullOrEmpty())
+            {
+                Toast.makeText(
+                    this.context,
+                    errorMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
-        personViewModel.reload()
-
         binding.swipeRefresh.setOnRefreshListener {
-            personViewModel.reload()
+            personViewModel.reload(auth.currentUser!!.email!!)
+            binding.searchView.setQuery("", false)
+            binding.searchView.clearFocus()
             binding.swipeRefresh.isRefreshing = false
         }
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query.isNullOrEmpty()) {
+                    personViewModel.reload(auth.currentUser!!.email!!)
+                }
+                personViewModel.filter(query)
+                return false
+            }
 
-        binding.textViewTitle.text = "Welcome! " + auth.currentUser?.email + " to page one"
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    personViewModel.reload(auth.currentUser!!.email!!)
+                }
+                personViewModel.filter(newText)
+                return false
+            }
+
+        })
     }
 
     override fun onDestroyView() {

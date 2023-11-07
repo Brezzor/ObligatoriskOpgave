@@ -5,7 +5,7 @@ import java.io.Serializable
 data class Person(
     val id: Int,
     val userId: String?,
-    val name: String,
+    val name: String?,
     val birthYear: Int,
     val birthMonth: Int,
     val birthDayOfMonth: Int,
