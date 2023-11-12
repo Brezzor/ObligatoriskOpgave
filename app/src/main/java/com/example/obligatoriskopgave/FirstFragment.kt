@@ -94,6 +94,10 @@ class FirstFragment : Fragment() {
             }
 
         })
+
+        binding.fab.setOnClickListener{
+            findNavController().navigate(R.id.action_FirstFragment_to_thirdFragment)
+        }
     }
 
     override fun onDestroyView() {

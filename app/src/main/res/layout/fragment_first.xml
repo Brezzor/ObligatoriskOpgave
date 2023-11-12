@@ -28,6 +28,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/thin_border_radius"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,31 +43,36 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/sort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:background="@drawable/rounded"
         android:backgroundTint="#4CAF50"
+        android:contentDescription="@string/sort_friends"
+        android:elevation="8dp"
+        android:minWidth="48dp"
         android:minHeight="48dp"
-        android:text="@string/sort"
-        android:textColor="#263238"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_sort_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp" />
+        app:strokeWidth="2dp"
+        tools:ignore="ImageContrastCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="@string/todo"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/add_friend"
+        android:scaleType="centerInside"
+        app:backgroundTint="#4CAF50"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_dialog_email"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:srcCompat="@drawable/ic_plus_24dp"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

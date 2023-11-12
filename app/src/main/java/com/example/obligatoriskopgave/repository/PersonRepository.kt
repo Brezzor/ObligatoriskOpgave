@@ -24,56 +24,14 @@ class PersonRepository {
         personService = build.create(PersonService::class.java)
     }
 
-    fun getPersons() {
-        personService.getAllPersons().enqueue(object : Callback<List<Person>> {
+    fun getPersonsByUserId(userId: String) {
+        personService.getPersonsByUserId(userId).enqueue(object : Callback<List<Person>> {
             override fun onResponse(call: Call<List<Person>>, response: Response<List<Person>>) {
                 if (response.isSuccessful) {
                     val b: List<Person>? = response.body()
                     personLiveData.postValue(b!!)
                     errorMessageLiveData.postValue("")
                     Log.d("APPLE", "Got persons.")
-                } else {
-                    val message = response.code().toString() + " " + response.message()
-                    errorMessageLiveData.postValue(message)
-                    Log.d("APPLE", message)
-                }
-            }
-
-            override fun onFailure(call: Call<List<Person>>, t: Throwable) {
-                errorMessageLiveData.postValue(t.message)
-                Log.d("APPLE", t.message!!)
-            }
-        })
-    }
-
-    fun getById(id: Int) {
-        personService.getPersonById(id).enqueue(object : Callback<Person> {
-            override fun onResponse(call: Call<Person>, response: Response<Person>) {
-                if (response.isSuccessful) {
-                    Log.d("APPLE", "Got: " + response.body())
-                    updateMessageLiveData.postValue("Got: " + response.message())
-                } else {
-                    val message = response.code().toString() + " " + response.message()
-                    errorMessageLiveData.postValue(message)
-                    Log.d("APPLE", message)
-                }
-            }
-
-            override fun onFailure(call: Call<Person>, t: Throwable) {
-                errorMessageLiveData.postValue(t.message)
-                Log.d("APPLE", t.message!!)
-            }
-        })
-    }
-
-    fun getPersonsByUserId(userId: String) {
-        personService.getPersonByUserId(userId).enqueue(object : Callback<List<Person>> {
-            override fun onResponse(call: Call<List<Person>>, response: Response<List<Person>>) {
-                if (response.isSuccessful) {
-                    val b: List<Person>? = response.body()
-                    personLiveData.postValue(b!!)
-                    errorMessageLiveData.postValue("")
-                    Log.d("APPLE", "Got persons by userId.")
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)
