@@ -13,7 +13,7 @@ class PersonViewModel: ViewModel() {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     init {
-        reload(auth.currentUser!!.email!!.toString())
+        reload(auth.currentUser!!.email!!)
     }
 
     fun reload(userId: String) {
@@ -34,6 +34,46 @@ class PersonViewModel: ViewModel() {
 
     fun update(person: Person) {
         repository.updatePerson(person)
+    }
+
+    fun sortByName() {
+        repository.sortByName()
+    }
+
+    fun sortByNameDes() {
+        repository.sortByNameDes()
+    }
+
+    fun sortByAge() {
+        repository.sortByAge()
+    }
+
+    fun sortByAgeDes() {
+        repository.sortByAgeDes()
+    }
+
+    fun sortByYear() {
+        repository.sortByYear()
+    }
+
+    fun sortByMonth() {
+        repository.sortByMonth()
+    }
+
+    fun sortByMonthDes() {
+        repository.sortByMonthDes()
+    }
+
+    fun sortByDay() {
+        repository.sortByDay()
+    }
+
+    fun sortByDayDes() {
+        repository.sortByDayDes()
+    }
+
+    fun sortByYearDes() {
+        repository.sortByYearDes()
     }
 
     fun filter(filterText: String?) {

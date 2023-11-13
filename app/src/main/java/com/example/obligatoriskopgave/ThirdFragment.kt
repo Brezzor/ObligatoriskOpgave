@@ -6,7 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.obligatoriskopgave.databinding.FragmentThirdBinding
+import com.example.obligatoriskopgave.models.Person
+import com.example.obligatoriskopgave.models.PersonViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -15,7 +21,11 @@ import java.util.Locale
 class ThirdFragment : Fragment() {
     private var _binding: FragmentThirdBinding? = null
     private val binding get() = _binding!!
+    private val auth = Firebase.auth
     private val calender = Calendar.getInstance()
+    private var newPerson: Person = Person()
+    private val personViewModel: PersonViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,6 +40,13 @@ class ThirdFragment : Fragment() {
         binding.birthday.setOnClickListener {
             showDatePicker()
         }
+
+        binding.addPersonButton.setOnClickListener {
+            newPerson.userId = auth.currentUser!!.email
+            newPerson.name = binding.name.text.toString().trim()
+            personViewModel.add(newPerson)
+            findNavController().navigate(R.id.action_thirdFragment_to_FirstFragment)
+        }
     }
 
     private fun showDatePicker() {
@@ -37,9 +54,12 @@ class ThirdFragment : Fragment() {
             this.requireContext(), { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                 val selectedDate: Calendar = Calendar.getInstance()
                 selectedDate.set(year,monthOfYear,dayOfMonth)
-                val dateFormat: DateFormat = SimpleDateFormat("ddMMyyyy", Locale.getDefault())
+                val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val formattedDate = dateFormat.format(selectedDate.time)
                 binding.birthday.setText(formattedDate)
+                newPerson.birthYear = year
+                newPerson.birthMonth = monthOfYear
+                newPerson.birthDayOfMonth = dayOfMonth
             },
             calender.get(Calendar.YEAR),
             calender.get(Calendar.MONTH),

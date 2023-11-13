@@ -59,4 +59,18 @@
     <string name="remarks">Remarks</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="name">Name</string>
+    <string name="delete_person_button">Delete person button</string>
+    <string name="name_asc">Name Asc</string>
+    <string name="name_dsc">Name Dsc</string>
+    <string name="age_asc">Age Asc</string>
+    <string name="age_dsc">Age Dsc</string>
+    <string name="year_asc">Year Asc</string>
+    <string name="year_dsc">Year Dsc</string>
+    <string name="month_asc">Month Asc</string>
+    <string name="month_dsc">Month Dsc</string>
+    <string name="day_asc">Day Asc</string>
+    <string name="day_dsc">Day Dsc</string>
+    <string name="close">close</string>
+    <string name="update">Update</string>
+    <string name="update_person_button">Update person button</string>
 </resources>

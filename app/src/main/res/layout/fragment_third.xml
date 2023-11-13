@@ -30,7 +30,7 @@
         android:ems="10"
         android:focusable="false"
         android:hint="@string/date_of_birth"
-        android:inputType="date"
+        android:inputType="text"
         android:minHeight="48dp"
         android:textColorHint="#78909C"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
         tools:ignore="VisualLintTextFieldSize" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add_person_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"

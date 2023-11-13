@@ -25,6 +25,7 @@ class FirstFragment : Fragment() {
     private val binding get() = _binding!!
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val personViewModel: PersonViewModel by activityViewModels()
+    private val bottomSheetSortFragment = BottomSheetSortFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,7 +82,7 @@ class FirstFragment : Fragment() {
                 if (query.isNullOrEmpty()) {
                     personViewModel.reload(auth.currentUser!!.email!!)
                 }
-                personViewModel.filter(query)
+                personViewModel.filter(query!!.trim())
                 return false
             }
 
@@ -89,11 +90,15 @@ class FirstFragment : Fragment() {
                 if (newText.isNullOrEmpty()) {
                     personViewModel.reload(auth.currentUser!!.email!!)
                 }
-                personViewModel.filter(newText)
+                personViewModel.filter(newText!!.trim())
                 return false
             }
 
         })
+
+        binding.sort.setOnClickListener{
+            bottomSheetSortFragment.show(parentFragmentManager, bottomSheetSortFragment.tag)
+        }
 
         binding.fab.setOnClickListener{
             findNavController().navigate(R.id.action_FirstFragment_to_thirdFragment)

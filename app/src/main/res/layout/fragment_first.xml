@@ -50,14 +50,12 @@
         android:background="@drawable/rounded"
         android:backgroundTint="#4CAF50"
         android:contentDescription="@string/sort_friends"
-        android:elevation="8dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_sort_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="2dp"
         tools:ignore="ImageContrastCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
