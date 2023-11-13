@@ -39,6 +39,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        personViewModel.reload(auth.currentUser!!.email!!)
+
         personViewModel.personLiveData.observe(viewLifecycleOwner) { persons ->
             binding.recyclerView.visibility = if (persons == null) View.GONE else View.VISIBLE
             if (persons != null) {

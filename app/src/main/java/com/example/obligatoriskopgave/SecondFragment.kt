@@ -19,6 +19,7 @@ class SecondFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val bottomSheetUpdateFragment = BottomSheetUpdateFragment()
     private val personViewModel: PersonViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -34,8 +35,8 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bundle = requireArguments()
-        val secondFragmentArgs: SecondFragmentArgs = SecondFragmentArgs.fromBundle(bundle)
+        val argsBundle = requireArguments()
+        val secondFragmentArgs: SecondFragmentArgs = SecondFragmentArgs.fromBundle(argsBundle)
         val position = secondFragmentArgs.position
         val person = personViewModel[position]
         if (person == null) {
@@ -59,7 +60,19 @@ class SecondFragment : Fragment() {
 
         binding.deleteButton.setOnClickListener{
             personViewModel.delete(person.id)
+            Toast.makeText(
+                this.context,
+                "Person deleted",
+                Toast.LENGTH_SHORT
+            ).show()
             findNavController().popBackStack()
+        }
+
+        binding.updateButton.setOnClickListener {
+            val personBundle = Bundle()
+            personBundle.putParcelable("person", person)
+            bottomSheetUpdateFragment.arguments = personBundle
+            bottomSheetUpdateFragment.show(parentFragmentManager, bottomSheetUpdateFragment.tag)
         }
     }
 
