@@ -92,17 +92,20 @@ class FirstFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query.isNullOrEmpty()) {
                     personViewModel.reload(auth.currentUser!!.email!!)
+                    return false
                 }
-                personViewModel.filter(query!!.trim())
-                return false
+                personViewModel.filter(query.trim())
+                binding.searchView.clearFocus()
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText.isNullOrEmpty()) {
                     personViewModel.reload(auth.currentUser!!.email!!)
+                    return false
                 }
-                personViewModel.filter(newText!!.trim())
-                return false
+                personViewModel.filter(newText.trim())
+                return true
             }
 
         })
