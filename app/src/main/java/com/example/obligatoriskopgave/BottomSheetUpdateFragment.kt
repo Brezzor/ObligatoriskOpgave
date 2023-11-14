@@ -40,8 +40,8 @@ class BottomSheetUpdateFragment : BottomSheetDialogFragment() {
 
         binding.personName.setText(newPerson.name)
 
-        val selectedDate: Calendar = Calendar.getInstance()
-        selectedDate.set(newPerson.birthYear,newPerson.birthDayOfMonth,newPerson.birthDayOfMonth)
+        val selectedDate = Calendar.getInstance()
+        selectedDate.set(newPerson.birthYear,newPerson.birthMonth - 1,newPerson.birthDayOfMonth)
         val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val formattedDate = dateFormat.format(selectedDate.time)
         binding.birthday.setText(formattedDate)
@@ -72,15 +72,15 @@ class BottomSheetUpdateFragment : BottomSheetDialogFragment() {
 
     private fun showDatePicker() {
         val datePickerDialog = DatePickerDialog(
-            this.requireContext(), { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+            this.requireContext(), { _, year: Int, month: Int, day: Int ->
                 val selectedDate: Calendar = Calendar.getInstance()
-                selectedDate.set(year,monthOfYear,dayOfMonth)
+                selectedDate.set(year,month,day)
                 val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val formattedDate = dateFormat.format(selectedDate.time)
                 binding.birthday.setText(formattedDate)
                 newPerson.birthYear = year
-                newPerson.birthMonth = monthOfYear
-                newPerson.birthDayOfMonth = dayOfMonth
+                newPerson.birthMonth = month
+                newPerson.birthDayOfMonth = day
             },
             calender.get(Calendar.YEAR),
             calender.get(Calendar.MONTH),

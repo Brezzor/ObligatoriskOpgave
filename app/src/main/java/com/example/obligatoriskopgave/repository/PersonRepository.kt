@@ -3,6 +3,7 @@ package com.example.obligatoriskopgave.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.obligatoriskopgave.models.Person
+import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,6 +16,7 @@ class PersonRepository {
     val personLiveData: MutableLiveData<List<Person>> = MutableLiveData<List<Person>>()
     val errorMessageLiveData: MutableLiveData<String> = MutableLiveData()
     val updateMessageLiveData: MutableLiveData<String> = MutableLiveData()
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     init {
         val build: Retrofit = Retrofit.Builder()
@@ -22,6 +24,7 @@ class PersonRepository {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         personService = build.create(PersonService::class.java)
+        getPersonsByUserId(auth.currentUser!!.email!!)
     }
 
     fun getPersonsByUserId(userId: String) {
@@ -52,6 +55,7 @@ class PersonRepository {
                 if (response.isSuccessful) {
                     Log.d("APPLE", "Added: " + response.body())
                     updateMessageLiveData.postValue("Added: " + response.message())
+                    getPersonsByUserId(auth.currentUser!!.email!!)
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)
@@ -72,6 +76,7 @@ class PersonRepository {
                 if (response.isSuccessful) {
                     Log.d("APPLE", "Deleted: " + response.body())
                     updateMessageLiveData.postValue("Deleted: " + response.message())
+                    getPersonsByUserId(auth.currentUser!!.email!!)
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)
@@ -92,6 +97,7 @@ class PersonRepository {
                 if (response.isSuccessful) {
                     Log.d("APPLE", "Updated: " + response.body())
                     updateMessageLiveData.postValue("Updated: " + response.message())
+                    getPersonsByUserId(auth.currentUser!!.email!!)
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)

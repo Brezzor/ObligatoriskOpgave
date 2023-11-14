@@ -38,34 +38,65 @@ class ThirdFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val selectedDate = calender
+        selectedDate.set(newPerson.birthYear,newPerson.birthMonth,newPerson.birthDayOfMonth)
+        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate = dateFormat.format(selectedDate.time)
+        binding.birthday.setText(formattedDate)
+
         binding.birthday.setOnClickListener {
             showDatePicker()
         }
 
         binding.addPersonButton.setOnClickListener {
             newPerson.userId = auth.currentUser!!.email
+            if (binding.name.text.isNullOrEmpty()) {
+                Toast.makeText(
+                    context,
+                    "Person has to have a name",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
             newPerson.name = binding.name.text.toString().trim()
             personViewModel.add(newPerson)
-            Toast.makeText(
-                this.context,
-                "New person added",
-                Toast.LENGTH_SHORT
-            ).show()
             findNavController().navigate(R.id.action_thirdFragment_to_FirstFragment)
+        }
+
+        personViewModel.errorMessageLiveData.observe(viewLifecycleOwner) { errorMessage ->
+            if (!errorMessage.isNullOrEmpty())
+            {
+                Toast.makeText(
+                    this.context,
+                    errorMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        personViewModel.updateMessageLiveData.observe(viewLifecycleOwner) { updateMessage ->
+            if (!updateMessage.isNullOrEmpty())
+            {
+                Toast.makeText(
+                    this.context,
+                    updateMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
     private fun showDatePicker() {
         val datePickerDialog = DatePickerDialog(
-            this.requireContext(), { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+            this.requireContext(), { _, year: Int, month: Int, day: Int ->
                 val selectedDate: Calendar = Calendar.getInstance()
-                selectedDate.set(year,monthOfYear,dayOfMonth)
+                selectedDate.set(year,month,day)
                 val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val formattedDate = dateFormat.format(selectedDate.time)
                 binding.birthday.setText(formattedDate)
                 newPerson.birthYear = year
-                newPerson.birthMonth = monthOfYear
-                newPerson.birthDayOfMonth = dayOfMonth
+                newPerson.birthMonth = month
+                newPerson.birthDayOfMonth = day
             },
             calender.get(Calendar.YEAR),
             calender.get(Calendar.MONTH),

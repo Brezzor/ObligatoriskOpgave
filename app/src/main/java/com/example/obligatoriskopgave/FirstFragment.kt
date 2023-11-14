@@ -39,11 +39,9 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        personViewModel.reload(auth.currentUser!!.email!!)
-
         personViewModel.personLiveData.observe(viewLifecycleOwner) { persons ->
-            binding.recyclerView.visibility = if (persons == null) View.GONE else View.VISIBLE
-            if (persons != null) {
+            binding.recyclerView.visibility = if (persons.isNullOrEmpty()) View.GONE else View.VISIBLE
+            if (!persons.isNullOrEmpty()) {
                 val adapter = PersonAdapter(persons) { position ->
                     val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(position)
                     findNavController().navigate(action)
@@ -67,6 +65,17 @@ class FirstFragment : Fragment() {
                 Toast.makeText(
                     this.context,
                     errorMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        personViewModel.updateMessageLiveData.observe(viewLifecycleOwner) { updateMessage ->
+            if (!updateMessage.isNullOrEmpty())
+            {
+                Toast.makeText(
+                    this.context,
+                    updateMessage,
                     Toast.LENGTH_LONG
                 ).show()
             }

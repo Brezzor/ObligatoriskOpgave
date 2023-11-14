@@ -1,6 +1,7 @@
 package com.example.obligatoriskopgave
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,14 +60,33 @@ class SecondFragment : Fragment() {
         binding.age.text = "Age: ${person.age}"
 
         binding.deleteButton.setOnClickListener{
-            personViewModel.delete(person.id)
-            Toast.makeText(
-                this.context,
-                "Person deleted",
-                Toast.LENGTH_SHORT
-            ).show()
-            findNavController().popBackStack()
+            val alert = AlertDialog.Builder(context)
+            alert.setTitle("Delete Alert !")
+            alert.setMessage("Are you sure you want to delete this person?")
+            alert.setCancelable(false)
+            alert.setPositiveButton("Yes") { dialog, which ->
+                personViewModel.delete(person.id)
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+            alert.setNegativeButton("No") { dialog, which ->
+                dialog.cancel()
+            }
+            alert.show()
         }
+
+        personViewModel.errorMessageLiveData.observe(viewLifecycleOwner) { errorMessage ->
+            if (!errorMessage.isNullOrEmpty())
+            {
+                Toast.makeText(
+                    this.context,
+                    errorMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+
 
         binding.updateButton.setOnClickListener {
             val personBundle = Bundle()
