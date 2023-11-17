@@ -73,4 +73,7 @@
     <string name="close">close</string>
     <string name="update">Update</string>
     <string name="update_person_button">Update person button</string>
+    <string name="your_friend_s">Your Friend\'s</string>
+    <string name="friend_details">Friend Details</string>
+    <string name="add_friend_title">Add Friend</string>
 </resources>
